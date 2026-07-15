@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Батарейки v2.2</title>
+    <title>Батарейки</title>
     
-    <!-- Иконки для ярлыка на главном экране (работают автономно) -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%231e293b' stroke='%233b82f6' stroke-width='4'/><circle cx='50' cy='50' r='30' fill='%23eab308'/><rect x='45' y='12' width='10' height='10' rx='2' fill='%23eab308'/><path d='M50 30 V50 H65' stroke='%231e293b' stroke-width='5' stroke-linecap='round'/></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%231e293b' stroke='%233b82f6' stroke-width='4'/><circle cx='50' cy='50' r='30' fill='%23eab308'/><rect x='45' y='12' width='10' height='10' rx='2' fill='%23eab308'/><path d='M50 30 V50 H65' stroke='%231e293b' stroke-width='5' stroke-linecap='round'/></svg>">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <style>
         :root {
@@ -17,54 +15,43 @@
             --card-bg: #1e293b;
             --text-color: #f1f5f9;
             --accent-color: #3b82f6;
-            --accent-hover: #2563eb;
             --border-color: #334155;
             --text-muted: #94a3b8;
-            --brand-color: #eab308; /* Золотой для дорогих брендов */
-            --cheap-color: #10b981; /* Зеленый для дешевых */
-            --danger-color: #f43f5e;
-            --info-color: #06b6d4;
+            --brand-color: #ffdd67;
+            --cheap-color: #5ef3b7;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            padding: 15px;
-            max-width: 1000px;
+            padding: 10px;
+            max-width: 600px;
             margin: 0 auto;
-            line-height: 1.5;
         }
 
-        /* Поисковая секция теперь в самом верху */
         .search-section {
             background-color: #1e293b;
-            padding: 20px;
-            border-radius: 16px;
+            padding: 12px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             position: sticky;
-            top: 10px;
+            top: 5px;
             z-index: 100;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
         .search-grid {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr;
-            gap: 12px;
-        }
-
-        @media (max-width: 768px) {
-            .search-grid {
-                grid-template-columns: 1fr;
-            }
+            gap: 8px;
         }
 
         .form-group {
@@ -73,26 +60,24 @@
         }
 
         .form-group label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
+            font-size: 0.75rem;
+            margin-bottom: 4px;
             color: var(--text-muted);
             font-weight: bold;
         }
 
-        input[type="text"], input[type="number"] {
-            padding: 14px 16px;
-            font-size: 1.1rem;
+        input {
+            padding: 10px;
+            font-size: 1rem;
             background-color: #0f172a;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 6px;
             color: #fff;
             outline: none;
-            transition: border-color 0.2s;
+            width: 100%;
         }
 
-        input[type="text"]:focus, input[type="number"]:focus {
+        input:focus {
             border-color: var(--accent-color);
         }
 
@@ -100,851 +85,181 @@
             background-color: #334155;
             color: #fff;
             border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
+            padding: 8px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
-            transition: background-color 0.2s;
-            margin-top: 12px;
-            font-size: 0.95rem;
+            margin-top: 8px;
+            font-size: 0.85rem;
             width: 100%;
         }
 
-        .clear-btn:hover {
-            background-color: #475569;
-        }
-
         .stats {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            padding: 0 5px;
+            margin-bottom: 8px;
+            padding: 0 4px;
         }
 
-        /* Выдача результатов крупнее */
         .battery-list {
             display: grid;
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 10px;
         }
 
         .battery-card {
             background-color: #1e293b;
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            padding: 22px;
-            transition: border-color 0.15s, box-shadow 0.15s;
-            position: relative;
-        }
-
-        .battery-card:hover {
-            border-color: #475569;
-            box-shadow: 0 6px 24px -2px rgba(0,0,0,0.4);
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px;
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 8px;
         }
 
         .renata-section {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .renata-badge {
-            background-color: var(--accent-color);
-            color: #fff;
-            font-size: 0.85rem;
-            font-weight: bold;
-            padding: 4px 8px;
-            border-radius: 6px;
-            text-transform: uppercase;
-        }
-
-        .renata-code {
-            font-size: 2.2rem; /* Увеличенный размер кода */
+            font-size: 1.8rem;
             font-weight: 900;
             color: #fff;
-            letter-spacing: 0.5px;
+        }
+
+        .renata-section span {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            margin-right: 4px;
         }
 
         .size-badge {
             background-color: #0f172a;
-            padding: 10px 16px;
-            border-radius: 10px;
-            font-size: 1.15rem; /* Крупнее размер */
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 1rem;
             font-weight: bold;
-            color: #fff;
-            border: 2px solid var(--border-color);
-        }
-
-        .recommendation-badges {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        @media (max-width: 600px) {
-            .recommendation-badges {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .badge-rec {
-            font-size: 0.85rem;
-            font-weight: 500;
-            padding: 10px 14px;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-
-        .badge-brand {
-            background-color: rgba(234, 179, 8, 0.1);
-            color: #ffdd67;
-            border: 1px solid rgba(234, 179, 8, 0.25);
-        }
-
-        .badge-cheap {
-            background-color: rgba(16, 185, 129, 0.1);
-            color: #5ef3b7;
-            border: 1px solid rgba(16, 185, 129, 0.25);
-        }
-
-        .badge-rec strong {
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: #fff;
-        }
-
-        .specs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-
-        .spec-item {
-            background-color: #0f172a;
-            padding: 10px 14px;
-            border-radius: 10px;
             border: 1px solid var(--border-color);
         }
 
-        .spec-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-bottom: 4px;
-            display: block;
-            font-weight: bold;
+        .rec-row {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
         }
 
-        .spec-value {
-            font-size: 1.1rem;
+        .rec-item {
+            padding: 6px 10px;
+            border-radius: 6px;
+            margin-bottom: 4px;
+        }
+
+        .brand-rec {
+            background-color: rgba(234, 179, 8, 0.08);
+            border-left: 3px solid var(--brand-color);
+        }
+
+        .cheap-rec {
+            background-color: rgba(16, 185, 129, 0.08);
+            border-left: 3px solid var(--cheap-color);
+        }
+
+        .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .val {
             font-weight: bold;
             color: #fff;
         }
 
-        .extra-details {
-            font-size: 0.9rem;
-            background-color: rgba(15, 23, 42, 0.5);
-            padding: 12px 16px;
-            border-radius: 10px;
-            border-left: 4px solid #4b5563;
-        }
-
-        .extra-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
-        }
-
-        .extra-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .extra-label {
-            color: var(--text-muted);
-        }
-
-        .extra-val {
-            font-weight: 600;
-            color: #f1f5f9;
+        .specs-mini {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            font-size: 0.8rem;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 8px;
         }
 
         .highlight {
             background-color: rgba(59, 130, 246, 0.4);
             color: #fff;
-            padding: 0 4px;
-            border-radius: 4px;
+            padding: 0 2px;
+            border-radius: 3px;
         }
 
         .no-results {
             text-align: center;
-            padding: 50px 20px;
-            background-color: #1e293b;
-            border-radius: 16px;
-            border: 1px dashed var(--border-color);
+            padding: 30px;
             color: var(--text-muted);
             display: none;
-        }
-
-        /* Информационные разделы перенесены вниз */
-        footer {
-            margin-top: 30px;
-            border-top: 2px solid var(--border-color);
-            padding-top: 25px;
-        }
-
-        .info-panel {
-            background-color: #1e293b;
-            border-left: 4px solid var(--accent-color);
-            padding: 18px;
-            border-radius: 0 12px 12px 0;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-        }
-
-        .info-panel ul {
-            margin-left: 20px;
-            margin-top: 8px;
-        }
-
-        .info-panel li {
-            margin-bottom: 6px;
-        }
-
-        .legend-card {
-            background-color: #1e293b;
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px;
-        }
-
-        .legend-title {
-            font-size: 1.15rem;
-            font-weight: bold;
-            margin-bottom: 12px;
-            color: #fff;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
-        }
-
-        .legend-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        @media (max-width: 640px) {
-            .legend-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .legend-item {
-            font-size: 0.9rem;
-        }
-
-        .legend-heading {
-            font-weight: bold;
-            margin-bottom: 6px;
         }
     </style>
 </head>
 <body>
 
-    <!-- ВЕРХ ПАНЕЛИ: ПОИСКОВЫЕ ФИЛЬТРЫ -->
     <div class="search-section">
         <div class="search-grid">
             <div class="form-group">
-                <label for="searchInput">Поиск по маркировке (377, SR626, AG4...)</label>
-                <input type="text" id="searchInput" placeholder="Введите маркировку..." autocomplete="off">
+                <label>Поиск</label>
+                <input type="text" id="searchInput" placeholder="377, SR626..." autocomplete="off">
             </div>
             <div class="form-group">
-                <label for="diamInput">Диаметр (мм)</label>
-                <input type="number" id="diamInput" step="0.1" min="0" placeholder="Напр: 6.8">
+                <label>Диаметр</label>
+                <input type="number" id="diamInput" step="0.1" placeholder="6.8">
             </div>
             <div class="form-group">
-                <label for="heightInput">Высота (мм)</label>
-                <input type="number" id="heightInput" step="0.05" min="0" placeholder="Напр: 2.6">
+                <label>Высота</label>
+                <input type="number" id="heightInput" step="0.05" placeholder="2.6">
             </div>
         </div>
-        <button class="clear-btn" id="clearBtn">Сбросить все фильтры</button>
+        <button class="clear-btn" id="clearBtn">Сбросить</button>
     </div>
 
-    <!-- ТЕКУЩАЯ СТАТИСТИКА -->
-    <div class="stats">
-        <span id="resultCounter">Загрузка базы данных...</span>
-    </div>
+    <div class="stats" id="resultCounter">Загрузка...</div>
 
-    <!-- ВЫДАЧА АНАЛОГОВ (НА ПЕРВОМ ПЛАНЕ) -->
-    <div class="battery-list" id="batteryList">
-        <!-- Карточки генерируются скриптом -->
-    </div>
+    <div class="battery-list" id="batteryList"></div>
 
-    <div class="no-results" id="noResults">
-        <h3>Элемент с такими параметрами не найден в базе</h3>
-        <p style="margin-top: 8px;">Проверьте введенные габариты или маркировку. Попробуйте округлить размеры.</p>
-    </div>
-
-    <!-- НИЗ ПАНЕЛИ: СПРАВОЧНЫЕ МАТЕРИАЛЫ И СОВЕТЫ -->
-    <footer>
-        <div class="info-panel">
-            <strong>💡 Советы по подбору для мастера:</strong>
-            <ul>
-                <li><strong>SW (Low Drain)</strong> — для классических стрелочных часов без доп. функций. Разряд плавный и долгий.</li>
-                <li><strong>W (High Drain)</strong> — для часов с подсветкой, хронографом или будильником.</li>
-                <li>Если в часах стояла <strong>W</strong>, заменять на <strong>SW</strong> крайне не рекомендуется (часы будут зависать или сбрасываться при подсветке).</li>
-                <li>Используйте поиск по диаметру и высоте, если маркировка на старой батарейке стерлась.</li>
-            </ul>
-        </div>
-
-        <div class="legend-card">
-            <div class="legend-title">⚡ Рекомендации по брендам элементов питания</div>
-            <div class="legend-grid">
-                <div class="legend-item">
-                    <div class="legend-heading" style="color: var(--brand-color);">★ Для брендовых и дорогих часов:</div>
-                    <p>Используйте премиальные серебряно-цинковые (Silver Oxide) батарейки с длительным сроком службы и защитой от протекания:</p>
-                    <p style="margin-top: 4px; font-weight: bold; color: #fff;">Renata (Швейцария), Seiko / Seizaken, Maxell, Murata (Sony) (Япония).</p>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-heading" style="color: var(--cheap-color);">✓ Для бюджетных и китайских часов:</div>
-                    <p>Для простых часов, будильников или детских игрушек подходят более доступные щелочные (Alkaline) элементы серии AG / LR, либо бюджетные серебряно-цинковые бренды:</p>
-                    <p style="margin-top: 4px; font-weight: bold; color: #fff;">Camelion, Minamoto, Rexant, Videx, Космос.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <div class="no-results" id="noResults">Параметры не найдены</div>
 
     <script>
         const batteryData = [
-            {
-                renata: "301",
-                iec: "SR43SW",
-                seiko: "SR43SW",
-                ag: "AG12",
-                lr: "LR43",
-                size: "11.60 x 4.20",
-                diameter: 11.6,
-                height: 4.2,
-                voltage: "1.55",
-                capacity: "120",
-                drain: "Low Drain (Для простых стрелочных)",
-                brandRec: "Renata 301, Maxell SR43SW, Seiko SB-A8",
-                cheapRec: "Camelion AG12 / LR43, Rexant AG12",
-                usage: "Часы, калькуляторы, приборы"
-            },
-            {
-                renata: "303",
-                iec: "SR44SW",
-                seiko: "SR44SW",
-                ag: "AG13",
-                lr: "LR44",
-                size: "11.60 x 5.60",
-                diameter: 11.6,
-                height: 5.6,
-                voltage: "1.55",
-                capacity: "165",
-                drain: "Low Drain (Для простых стрелочных)",
-                brandRec: "Renata 303, Murata SR44SW, Maxell SR44SW",
-                cheapRec: "Camelion AG13 / LR44, Космос LR44",
-                usage: "Часы, лазерные указки, приборы"
-            },
-            {
-                renata: "309",
-                iec: "SR754SW",
-                seiko: "SR754SW",
-                ag: "AG5",
-                lr: "LR754",
-                size: "7.90 x 5.40",
-                diameter: 7.9,
-                height: 5.4,
-                voltage: "1.55",
-                capacity: "70",
-                drain: "Low Drain (Низкое потребление)",
-                brandRec: "Renata 309, Maxell SR754SW",
-                cheapRec: "Camelion AG5 / LR754, Minamoto AG5",
-                usage: "Часы, слуховые аппараты"
-            },
-            {
-                renata: "315",
-                iec: "SR716SW",
-                seiko: "SR716SW",
-                ag: "—",
-                lr: "—",
-                size: "7.90 x 1.65",
-                diameter: 7.9,
-                height: 1.65,
-                voltage: "1.55",
-                capacity: "21",
-                drain: "Low Drain (Для тонких часов)",
-                brandRec: "Renata 315, Seiko SB-AT, Maxell SR716SW",
-                cheapRec: "Minamoto SR716, Camelion SR716",
-                usage: "Ультратонкие кварцевые часы"
-            },
-            {
-                renata: "317",
-                iec: "SR516SW",
-                seiko: "SR516SW",
-                ag: "—",
-                lr: "—",
-                size: "5.80 x 1.65",
-                diameter: 5.8,
-                height: 1.65,
-                voltage: "1.55",
-                capacity: "11.5",
-                drain: "Low Drain (Для сверхкомпактных часов)",
-                brandRec: "Renata 317, Seiko SB-AR, Maxell SR516SW",
-                cheapRec: "Rexant SR516, Minamoto 317",
-                usage: "Женские миниатюрные часы"
-            },
-            {
-                renata: "319",
-                iec: "SR527SW",
-                seiko: "SR527SW",
-                ag: "—",
-                lr: "—",
-                size: "5.80 x 2.70",
-                diameter: 5.8,
-                height: 2.7,
-                voltage: "1.55",
-                capacity: "20",
-                drain: "Low Drain (Низкое потребление)",
-                brandRec: "Renata 319, Maxell SR527SW",
-                cheapRec: "Minamoto 319, Camelion 319",
-                usage: "Небольшие кварцевые часы"
-            },
-            {
-                renata: "321",
-                iec: "SR616SW",
-                seiko: "SR616SW",
-                ag: "—",
-                lr: "—",
-                size: "6.80 x 1.65",
-                diameter: 6.8,
-                height: 1.65,
-                voltage: "1.55",
-                capacity: "16",
-                drain: "Low Drain (Для тонких часов)",
-                brandRec: "Renata 321, Seiko SB-AF/DF, Maxell SR616SW",
-                cheapRec: "Minamoto 321, Camelion 321",
-                usage: "Женские кварцевые часы"
-            },
-            {
-                renata: "329",
-                iec: "SR731SW",
-                seiko: "SR731SW",
-                ag: "—",
-                lr: "—",
-                size: "7.90 x 3.10",
-                diameter: 7.9,
-                height: 3.1,
-                voltage: "1.55",
-                capacity: "37",
-                drain: "Low Drain",
-                brandRec: "Renata 329, Maxell SR731SW",
-                cheapRec: "Minamoto 329",
-                usage: "Часы специального назначения"
-            },
-            {
-                renata: "337",
-                iec: "SR416SW",
-                seiko: "SR416SW",
-                ag: "—",
-                lr: "—",
-                size: "4.80 x 1.65",
-                diameter: 4.8,
-                height: 1.65,
-                voltage: "1.55",
-                capacity: "7.5",
-                drain: "Low Drain (Микро-батарейка)",
-                brandRec: "Renata 337, Maxell SR416SW",
-                cheapRec: "Minamoto 337, Camelion 337",
-                usage: "Микронаушники, ультракомпактные часы"
-            },
-            {
-                renata: "348",
-                iec: "SR421SW",
-                seiko: "SR421SW",
-                ag: "—",
-                lr: "—",
-                size: "4.80 x 2.15",
-                diameter: 4.8,
-                height: 2.15,
-                voltage: "1.55",
-                capacity: "12",
-                drain: "Low Drain",
-                brandRec: "Renata 348, Maxell SR421SW",
-                cheapRec: "Minamoto 348",
-                usage: "Миниатюрные устройства"
-            },
-            {
-                renata: "357",
-                iec: "SR44W",
-                seiko: "SR44W",
-                ag: "AG13",
-                lr: "LR44",
-                size: "11.60 x 5.40",
-                diameter: 11.6,
-                height: 5.4,
-                voltage: "1.55",
-                capacity: "165",
-                drain: "High Drain (Для часов с подсветкой/будильником)",
-                brandRec: "Renata 357, Maxell SR44W, Varta V357",
-                cheapRec: "Camelion AG13, Videx AG13",
-                usage: "Часы с функциями, калькуляторы, указки"
-            },
-            {
-                renata: "362",
-                iec: "SR721SW",
-                seiko: "SR721SW",
-                ag: "AG11",
-                lr: "LR721",
-                size: "7.90 x 2.15",
-                diameter: 7.9,
-                height: 2.15,
-                voltage: "1.55",
-                capacity: "24",
-                drain: "Low Drain (Низкий ток)",
-                brandRec: "Renata 362, Seiko SB-AK/DK, Murata SR721SW",
-                cheapRec: "Camelion AG11 / LR721, Minamoto 362",
-                usage: "Обычные кварцевые часы"
-            },
-            {
-                renata: "364",
-                iec: "SR621SW",
-                seiko: "SR621SW",
-                ag: "AG1",
-                lr: "LR621 / LR60",
-                size: "6.80 x 2.15",
-                diameter: 6.8,
-                height: 2.15,
-                voltage: "1.55",
-                capacity: "18",
-                drain: "Low Drain (Самая популярная для тонких часов)",
-                brandRec: "Renata 364, Maxell SR621SW, Seiko SB-AG/DG",
-                cheapRec: "Camelion AG1 / LR621, Minamoto AG1",
-                usage: "Широкий спектр кварцевых часов"
-            },
-            {
-                renata: "366",
-                iec: "SR1116SW",
-                seiko: "SR1116SW",
-                ag: "—",
-                lr: "—",
-                size: "11.60 x 1.65",
-                diameter: 11.6,
-                height: 1.65,
-                voltage: "1.55",
-                capacity: "33",
-                drain: "Low Drain",
-                brandRec: "Renata 366, Maxell SR1116SW",
-                cheapRec: "Minamoto 366",
-                usage: "Специфические плоские часы"
-            },
-            {
-                renata: "370",
-                iec: "SR920W",
-                seiko: "SR920W",
-                ag: "AG6",
-                lr: "LR920 / LR69",
-                size: "9.50 x 2.15",
-                diameter: 9.5,
-                height: 2.15,
-                voltage: "1.55",
-                capacity: "33",
-                drain: "High Drain (Для хронографов)",
-                brandRec: "Renata 370, Seiko SB-AN, Maxell SR920W",
-                cheapRec: "Camelion AG6 / LR920",
-                usage: "Часы с календарем/подсветкой, хронографы"
-            },
-            {
-                renata: "371",
-                iec: "SR920SW",
-                seiko: "SR920SW",
-                ag: "AG6",
-                lr: "LR920 / LR69",
-                size: "9.50 x 2.15",
-                diameter: 9.5,
-                height: 2.15,
-                voltage: "1.55",
-                capacity: "33",
-                drain: "Low Drain (Популярная)",
-                brandRec: "Renata 371, Maxell SR920SW, Seiko SB-AN",
-                cheapRec: "Camelion AG6, Minamoto AG6",
-                usage: "Кварцевые часы со стрелками"
-            },
-            {
-                renata: "373",
-                iec: "SR916SW",
-                seiko: "SR916SW",
-                ag: "—",
-                lr: "—",
-                size: "9.50 x 1.65",
-                diameter: 9.5,
-                height: 1.65,
-                voltage: "1.55",
-                capacity: "26",
-                drain: "Low Drain",
-                brandRec: "Renata 373, Maxell SR916SW",
-                cheapRec: "Minamoto 373",
-                usage: "Тонкие японские и швейцарские часы"
-            },
-            {
-                renata: "377",
-                iec: "SR626SW",
-                seiko: "SR626SW",
-                ag: "AG4",
-                lr: "LR626 / LR66",
-                size: "6.80 x 2.60",
-                diameter: 6.8,
-                height: 2.6,
-                voltage: "1.55",
-                capacity: "29",
-                drain: "Low Drain (Абсолютный хит продаж)",
-                brandRec: "Renata 377, Seiko SB-AW, Maxell SR626SW, Murata 377",
-                cheapRec: "Camelion AG4 / LR626, Rexant AG4",
-                usage: "90% стандартных мужских и женских часов"
-            },
-            {
-                renata: "379",
-                iec: "SR521SW",
-                seiko: "SR521SW",
-                ag: "AG0",
-                lr: "LR521",
-                size: "5.80 x 2.15",
-                diameter: 5.8,
-                height: 2.15,
-                voltage: "1.55",
-                capacity: "14",
-                drain: "Low Drain (Миниатюрная)",
-                brandRec: "Renata 379, Maxell SR521SW, Seiko SB-AC-DC",
-                cheapRec: "Camelion AG0, Minamoto AG0",
-                usage: "Миниатюрные женские часы"
-            },
-            {
-                renata: "381",
-                iec: "SR1120SW",
-                seiko: "SR1120SW",
-                ag: "AG8",
-                lr: "LR1120",
-                size: "11.60 x 2.15",
-                diameter: 11.6,
-                height: 2.15,
-                voltage: "1.55",
-                capacity: "40",
-                drain: "Low Drain",
-                brandRec: "Renata 381, Maxell SR1120SW",
-                cheapRec: "Camelion AG8",
-                usage: "Часы, калькуляторы"
-            },
-            {
-                renata: "384",
-                iec: "SR41SW",
-                seiko: "SR41SW",
-                ag: "AG3",
-                lr: "LR41",
-                size: "7.90 x 3.60",
-                diameter: 7.9,
-                height: 3.6,
-                voltage: "1.55",
-                capacity: "42",
-                drain: "Low Drain",
-                brandRec: "Renata 384, Maxell SR41SW",
-                cheapRec: "Camelion AG3, Космос LR41",
-                usage: "Часы, мелкие приборы"
-            },
-            {
-                renata: "386",
-                iec: "SR43W",
-                seiko: "SR43W",
-                ag: "AG12",
-                lr: "LR43",
-                size: "11.60 x 4.20",
-                diameter: 11.6,
-                height: 4.2,
-                voltage: "1.55",
-                capacity: "120",
-                drain: "High Drain (Для часов с подсветкой)",
-                brandRec: "Renata 386, Maxell SR43W, Varta V386",
-                cheapRec: "Camelion AG12, Videx AG12",
-                usage: "Многофункциональные часы, калькуляторы"
-            },
-            {
-                renata: "389",
-                iec: "SR1130W",
-                seiko: "SR1130W",
-                ag: "AG10",
-                lr: "LR1130",
-                size: "11.60 x 3.05",
-                diameter: 11.6,
-                height: 3.05,
-                voltage: "1.55",
-                capacity: "70",
-                drain: "High Drain",
-                brandRec: "Renata 389, Maxell SR1130W, Seiko SB-BU",
-                cheapRec: "Camelion AG10 / LR1130, Rexant AG10",
-                usage: "Часы с функциями, игрушки"
-            },
-            {
-                renata: "390",
-                iec: "SR1130SW",
-                seiko: "SR1130SW",
-                ag: "AG10",
-                lr: "LR1130 / LR54",
-                size: "11.60 x 3.05",
-                diameter: 11.6,
-                height: 3.05,
-                voltage: "1.55",
-                capacity: "70",
-                drain: "Low Drain",
-                brandRec: "Renata 390, Maxell SR1130SW",
-                cheapRec: "Camelion AG10, Minamoto AG10",
-                usage: "Классические часы со стрелками"
-            },
-            {
-                renata: "391",
-                iec: "SR1120W",
-                seiko: "SR1120W",
-                ag: "AG8",
-                lr: "LR1120 / LR55",
-                size: "11.60 x 2.15",
-                diameter: 11.6,
-                height: 2.15,
-                voltage: "1.55",
-                capacity: "38",
-                drain: "High Drain",
-                brandRec: "Renata 391, Maxell SR1120W, Varta V391",
-                cheapRec: "Camelion AG8 / LR1120",
-                usage: "Часы с функции, калькуляторы"
-            },
-            {
-                renata: "392",
-                iec: "SR41W",
-                seiko: "SR41W",
-                ag: "AG3",
-                lr: "LR41 / LR736",
-                size: "7.90 x 3.60",
-                diameter: 7.9,
-                height: 3.6,
-                voltage: "1.55",
-                capacity: "48",
-                drain: "High Drain",
-                brandRec: "Renata 392, Maxell SR41W, Seiko SB-B1/A1",
-                cheapRec: "Camelion AG3 / LR41",
-                usage: "Электронные приборы, часы с подсветкой"
-            },
-            {
-                renata: "393",
-                iec: "SR754W",
-                seiko: "SR754W",
-                ag: "AG5",
-                lr: "LR754 / LR48",
-                size: "7.90 x 5.40",
-                diameter: 7.9,
-                height: 5.4,
-                voltage: "1.55",
-                capacity: "70",
-                drain: "High Drain",
-                brandRec: "Renata 393, Seiko SB-B3",
-                cheapRec: "Camelion AG5",
-                usage: "Слуховые аппараты, сложные часы"
-            },
-            {
-                renata: "394",
-                iec: "SR936SW",
-                seiko: "SR936SW",
-                ag: "AG9",
-                lr: "LR936 / LR45",
-                size: "9.50 x 3.60",
-                diameter: 9.5,
-                height: 3.6,
-                voltage: "1.55",
-                capacity: "60",
-                drain: "Low Drain",
-                brandRec: "Renata 394, Seiko SB-A4, Maxell SR936SW",
-                cheapRec: "Camelion AG9 / LR936",
-                usage: "Часы, калькуляторы"
-            },
-            {
-                renata: "395",
-                iec: "SR927SW",
-                seiko: "SR927SW",
-                ag: "AG7",
-                lr: "LR927 / LR57",
-                size: "9.50 x 2.65",
-                diameter: 9.5,
-                height: 2.65,
-                voltage: "1.55",
-                capacity: "55",
-                drain: "Low Drain",
-                brandRec: "Renata 395, Maxell SR927SW, Seiko SB-AP/BP",
-                cheapRec: "Camelion AG7 / LR927",
-                usage: "Мужские стрелочные часы, хронографы"
-            },
-            {
-                renata: "396",
-                iec: "SR726W",
-                seiko: "SR726W",
-                ag: "AG2",
-                lr: "LR726",
-                size: "7.90 x 2.65",
-                diameter: 7.9,
-                height: 2.65,
-                voltage: "1.55",
-                capacity: "30",
-                drain: "High Drain",
-                brandRec: "Renata 396, Maxell SR726W",
-                cheapRec: "Camelion AG2",
-                usage: "Часы с функциями"
-            },
-            {
-                renata: "397",
-                iec: "SR726SW",
-                seiko: "SR726SW",
-                ag: "AG2",
-                lr: "LR726 / LR59",
-                size: "7.90 x 2.65",
-                diameter: 7.9,
-                height: 2.65,
-                voltage: "1.55",
-                capacity: "30",
-                drain: "Low Drain",
-                brandRec: "Renata 397, Seiko SB-AL, Maxell SR726SW",
-                cheapRec: "Camelion AG2 / LR726",
-                usage: "Классические часы"
-            },
-            {
-                renata: "399",
-                iec: "SR927W",
-                seiko: "SR927W",
-                ag: "AG7",
-                lr: "LR927",
-                size: "9.50 x 2.65",
-                diameter: 9.5,
-                height: 2.65,
-                voltage: "1.55",
-                capacity: "55",
-                drain: "High Drain (Для мощных спортивных часов)",
-                brandRec: "Renata 399, Maxell SR927W, Seiko SB-BP/AP",
-                cheapRec: "Camelion AG7, Rexant AG7",
-                usage: "Многофункциональные спортивные часы, хронографы"
-            }
+            { renata: "301", iec: "SR43SW", ag: "AG12", lr: "LR43", size: "11.60 x 4.20", diameter: 11.6, height: 4.2, voltage: "1.55", capacity: "120", drain: "Low Drain", brandRec: "Renata 301, Maxell SR43SW", cheapRec: "Camelion AG12 / LR43" },
+            { renata: "303", iec: "SR44SW", ag: "AG13", lr: "LR44", size: "11.60 x 5.60", diameter: 11.6, height: 5.6, voltage: "1.55", capacity: "165", drain: "Low Drain", brandRec: "Renata 303, Murata SR44SW", cheapRec: "Camelion AG13 / LR44" },
+            { renata: "309", iec: "SR754SW", ag: "AG5", lr: "LR754", size: "7.90 x 5.40", diameter: 7.9, height: 5.4, voltage: "1.55", capacity: "70", drain: "Low Drain", brandRec: "Renata 309, Maxell SR754SW", cheapRec: "Camelion AG5 / LR754" },
+            { renata: "315", iec: "SR716SW", ag: "—", lr: "—", size: "7.90 x 1.65", diameter: 7.9, height: 1.65, voltage: "1.55", capacity: "21", drain: "Low Drain", brandRec: "Renata 315, Maxell SR716SW", cheapRec: "Minamoto SR716" },
+            { renata: "317", iec: "SR516SW", ag: "—", lr: "—", size: "5.80 x 1.65", diameter: 5.8, height: 1.65, voltage: "1.55", capacity: "11.5", drain: "Low Drain", brandRec: "Renata 317, Maxell SR516SW", cheapRec: "Rexant SR516" },
+            { renata: "319", iec: "SR527SW", ag: "—", lr: "—", size: "5.80 x 2.70", diameter: 5.8, height: 2.7, voltage: "1.55", capacity: "20", drain: "Low Drain", brandRec: "Renata 319, Maxell SR527SW", cheapRec: "Minamoto 319" },
+            { renata: "321", iec: "SR616SW", ag: "—", lr: "—", size: "6.80 x 1.65", diameter: 6.8, height: 1.65, voltage: "1.55", capacity: "16", drain: "Low Drain", brandRec: "Renata 321, Maxell SR616SW", cheapRec: "Minamoto 321" },
+            { renata: "329", iec: "SR731SW", ag: "—", lr: "—", size: "7.90 x 3.10", diameter: 7.9, height: 3.1, voltage: "1.55", capacity: "37", drain: "Low Drain", brandRec: "Renata 329, Maxell SR731SW", cheapRec: "Minamoto 329" },
+            { renata: "337", iec: "SR416SW", ag: "—", lr: "—", size: "4.80 x 1.65", diameter: 4.8, height: 1.65, voltage: "1.55", capacity: "7.5", drain: "Low Drain", brandRec: "Renata 337, Maxell SR416SW", cheapRec: "Minamoto 337" },
+            { renata: "348", iec: "SR421SW", ag: "—", lr: "—", size: "4.80 x 2.15", diameter: 4.8, height: 2.15, voltage: "1.55", capacity: "12", drain: "Low Drain", brandRec: "Renata 348, Maxell SR421SW", cheapRec: "Minamoto 348" },
+            { renata: "357", iec: "SR44W", ag: "AG13", lr: "LR44", size: "11.60 x 5.40", diameter: 11.6, height: 5.4, voltage: "1.55", capacity: "165", drain: "High Drain", brandRec: "Renata 357, Maxell SR44W", cheapRec: "Camelion AG13 / LR44" },
+            { renata: "362", iec: "SR721SW", ag: "AG11", lr: "LR721", size: "7.90 x 2.15", diameter: 7.9, height: 2.15, voltage: "1.55", capacity: "24", drain: "Low Drain", brandRec: "Renata 362, Murata SR721SW", cheapRec: "Camelion AG11" },
+            { renata: "364", iec: "SR621SW", ag: "AG1", lr: "LR621", size: "6.80 x 2.15", diameter: 6.8, height: 2.15, voltage: "1.55", capacity: "18", drain: "Low Drain", brandRec: "Renata 364, Maxell SR621SW", cheapRec: "Camelion AG1" },
+            { renata: "366", iec: "SR1116SW", ag: "—", lr: "—", size: "11.60 x 1.65", diameter: 11.6, height: 1.65, voltage: "1.55", capacity: "33", drain: "Low Drain", brandRec: "Renata 366, Maxell SR1116SW", cheapRec: "Minamoto 366" },
+            { renata: "370", iec: "SR920W", ag: "AG6", lr: "LR920", size: "9.50 x 2.15", diameter: 9.5, height: 2.15, voltage: "1.55", capacity: "33", drain: "High Drain", brandRec: "Renata 370, Maxell SR920W", cheapRec: "Camelion AG6" },
+            { renata: "371", iec: "SR920SW", ag: "AG6", lr: "LR920", size: "9.50 x 2.15", diameter: 9.5, height: 2.15, voltage: "1.55", capacity: "33", drain: "Low Drain", brandRec: "Renata 371, Maxell SR920SW", cheapRec: "Camelion AG6" },
+            { renata: "373", iec: "SR916SW", ag: "—", lr: "—", size: "9.50 x 1.65", diameter: 9.5, height: 1.65, voltage: "1.55", capacity: "26", drain: "Low Drain", brandRec: "Renata 373, Maxell SR916SW", cheapRec: "Minamoto 373" },
+            { renata: "377", iec: "SR626SW", ag: "AG4", lr: "LR626", size: "6.80 x 2.60", diameter: 6.8, height: 2.6, voltage: "1.55", capacity: "29", drain: "Low Drain", brandRec: "Renata 377, Maxell SR626SW", cheapRec: "Camelion AG4" },
+            { renata: "379", iec: "SR521SW", ag: "AG0", lr: "LR521", size: "5.80 x 2.15", diameter: 5.8, height: 2.15, voltage: "1.55", capacity: "14", drain: "Low Drain", brandRec: "Renata 379, Maxell SR521SW", cheapRec: "Camelion AG0" },
+            { renata: "381", iec: "SR1120SW", ag: "AG8", lr: "LR1120", size: "11.60 x 2.15", diameter: 11.6, height: 2.15, voltage: "1.55", capacity: "40", drain: "Low Drain", brandRec: "Renata 381, Maxell SR1120SW", cheapRec: "Camelion AG8" },
+            { renata: "384", iec: "SR41SW", ag: "AG3", lr: "LR41", size: "7.90 x 3.60", diameter: 7.9, height: 3.6, voltage: "1.55", capacity: "42", drain: "Low Drain", brandRec: "Renata 384, Maxell SR41SW", cheapRec: "Camelion AG3" },
+            { renata: "386", iec: "SR43W", ag: "AG12", lr: "LR43", size: "11.60 x 4.20", diameter: 11.6, height: 4.2, voltage: "1.55", capacity: "120", drain: "High Drain", brandRec: "Renata 386, Maxell SR43W", cheapRec: "Camelion AG12" },
+            { renata: "389", iec: "SR1130W", ag: "AG10", lr: "LR1130", size: "11.60 x 3.05", diameter: 11.6, height: 3.05, voltage: "1.55", capacity: "70", drain: "High Drain", brandRec: "Renata 389, Maxell SR1130W", cheapRec: "Camelion AG10" },
+            { renata: "390", iec: "SR1130SW", ag: "AG10", lr: "LR1130", size: "11.60 x 3.05", diameter: 11.6, height: 3.05, voltage: "1.55", capacity: "70", drain: "Low Drain", brandRec: "Renata 390, Maxell SR1130SW", cheapRec: "Camelion AG10" },
+            { renata: "391", iec: "SR1120W", ag: "AG8", lr: "LR1120", size: "11.60 x 2.15", diameter: 11.6, height: 2.15, voltage: "1.55", capacity: "38", drain: "High Drain", brandRec: "Renata 391, Maxell SR1120W", cheapRec: "Camelion AG8" },
+            { renata: "392", iec: "SR41W", ag: "AG3", lr: "LR41", size: "7.90 x 3.60", diameter: 7.9, height: 3.6, voltage: "1.55", capacity: "48", drain: "High Drain", brandRec: "Renata 392, Maxell SR41W", cheapRec: "Camelion AG3" },
+            { renata: "393", iec: "SR754W", ag: "AG5", lr: "LR754", size: "7.90 x 5.40", diameter: 7.9, height: 5.4, voltage: "1.55", capacity: "70", drain: "High Drain", brandRec: "Renata 393, Seiko SB-B3", cheapRec: "Camelion AG5" },
+            { renata: "394", iec: "SR936SW", ag: "AG9", lr: "LR936", size: "9.50 x 3.60", diameter: 9.5, height: 3.6, voltage: "1.55", capacity: "60", drain: "Low Drain", brandRec: "Renata 394, Maxell SR936SW", cheapRec: "Camelion AG9" },
+            { renata: "395", iec: "SR927SW", ag: "AG7", lr: "LR927", size: "9.50 x 2.65", diameter: 9.5, height: 2.65, voltage: "1.55", capacity: "55", drain: "Low Drain", brandRec: "Renata 395, Maxell SR927SW", cheapRec: "Camelion AG7" },
+            { renata: "396", iec: "SR726W", ag: "AG2", lr: "LR726", size: "7.90 x 2.65", diameter: 7.9, height: 2.65, voltage: "1.55", capacity: "30", drain: "High Drain", brandRec: "Renata 396, Maxell SR726W", cheapRec: "Camelion AG2" },
+            { renata: "397", iec: "SR726SW", ag: "AG2", lr: "LR726", size: "7.90 x 2.65", diameter: 7.9, height: 2.65, voltage: "1.55", capacity: "30", drain: "Low Drain", brandRec: "Renata 397, Maxell SR726SW", cheapRec: "Camelion AG2" },
+            { renata: "399", iec: "SR927W", ag: "AG7", lr: "LR927", size: "9.50 x 2.65", diameter: 9.5, height: 2.65, voltage: "1.55", capacity: "55", drain: "High Drain", brandRec: "Renata 399, Maxell SR927W", cheapRec: "Camelion AG7" }
         ];
 
         const searchInput = document.getElementById('searchInput');
@@ -957,15 +272,13 @@
 
         function renderList(data, highlightText = '') {
             batteryList.innerHTML = '';
-            
             if (data.length === 0) {
                 noResults.style.display = 'block';
                 resultCounter.textContent = 'Найдено: 0';
                 return;
             }
-
             noResults.style.display = 'none';
-            resultCounter.textContent = `В таблице найдено: ${data.length}`;
+            resultCounter.textContent = `Найдено: ${data.length}`;
 
             data.forEach(item => {
                 const card = document.createElement('div');
@@ -979,47 +292,24 @@
 
                 card.innerHTML = `
                     <div class="card-header">
-                        <div class="renata-section">
-                            <span class="renata-badge">RENATA</span>
-                            <span class="renata-code">${renataText}</span>
-                        </div>
+                        <div class="renata-section"><span>Renata</span>${renataText}</div>
                         <div class="size-badge">📐 ${sizeText} мм</div>
                     </div>
-
-                    <div class="recommendation-badges">
-                        <div class="badge-rec badge-brand">
-                            <span>👑 ДЛЯ ДОРОГИХ / БРЕНДОВЫХ:</span>
-                            <strong>${item.brandRec}</strong>
+                    <div class="rec-row">
+                        <div class="rec-item brand-rec">
+                            <span class="label" style="color: #ffdd67;">👑 Брендовые / Дорогие:</span>
+                            <span class="val">${item.brandRec}</span>
                         </div>
-                        <div class="badge-rec badge-cheap">
-                            <span>🔋 ДЛЯ ПРОСТЫХ / БЮДЖЕТНЫХ:</span>
-                            <strong>${item.cheapRec}</strong>
-                        </div>
-                    </div>
-
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <span class="spec-label">Код IEC / Seiko</span>
-                            <span class="spec-value">${iecText}</span>
-                        </div>
-                        <div class="spec-item">
-                            <span class="spec-label">Дешевый аналог</span>
-                            <span class="spec-value">${agText} (${lrText})</span>
-                        </div>
-                        <div class="spec-item">
-                            <span class="spec-label">Параметры</span>
-                            <span class="spec-value">${item.voltage}V / ${item.capacity} мАч</span>
+                        <div class="rec-item cheap-rec">
+                            <span class="label" style="color: #5ef3b7;">🔋 Дешевые / Бюджетные:</span>
+                            <span class="val">${item.cheapRec}</span>
                         </div>
                     </div>
-
-                    <div class="extra-details">
-                        <div class="extra-row">
-                            <span class="extra-label">Тип потребления (ток):</span>
-                            <span class="extra-val" style="color: #38bdf8; font-weight: bold;">${item.drain}</span>
-                        </div>
-                        <div class="extra-row">
-                            <span class="extra-label">Типичное применение:</span>
-                            <span class="extra-val">${item.usage}</span>
+                    <div class="specs-mini">
+                        <div><span class="label">Код IEC / Seiko</span><span class="val" style="font-size:0.9rem;">${iecText}</span></div>
+                        <div><span class="label">Аналог Alkaline</span><span class="val" style="font-size:0.9rem;">${agText} (${lrText})</span></div>
+                        <div style="grid-column: span 2; margin-top: 4px; color: var(--text-muted);">
+                            <span>Ток: <strong>${item.drain}</strong> | ${item.voltage}V | ${item.capacity} мАч</span>
                         </div>
                     </div>
                 `;
@@ -1072,7 +362,6 @@
             renderList(batteryData);
         });
 
-        // Инициализация при первой загрузке страницы
         renderList(batteryData);
     </script>
 </body>
